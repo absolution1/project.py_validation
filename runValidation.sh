@@ -56,6 +56,14 @@ echo "Running: getAllJobIDs.sh"
 getAllJobIDs.sh $OUTPUTDIR
 
 #Now dump the job id and job time elapsed into the text file (called job_time_elapsed.txt)
-echo "Running getJobTimes.sh"
+echo "Running: getJobTimes.sh"
 getJobTimes.sh jobids.txt
 
+#Create the output tree which will hold the data
+echo "Running: runCreateTree.C"
+root -l -q runCreateTree.C
+
+#Tidy up the directory
+rm createTree_C*
+rm job_time_elapsed.txt 
+rm jobids.txt

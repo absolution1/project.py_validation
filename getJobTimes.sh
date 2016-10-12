@@ -14,6 +14,9 @@ then
  exit 1
 fi
 
+#We will need the user group for fetching the history
+GROUP=`groups`
+
 #check if the output file we are going to make already exists.  If it does, delete it
 if [ -f job_time_elapsed.txt ]
 then
@@ -28,7 +31,7 @@ JOBIDS="$1"
 for JOBID in $(cat $JOBIDS)
 do
   #call jobsub_history for the job id, pipe that into grep (also using the job id)
-  HISTORYLINE=`jobsub_history --jobid=$JOBID | grep $JOBID`
+  HISTORYLINE=`jobsub_history -G $GROUP --user=$USER --jobid=$JOBID | grep $JOBID`
   NHISTORYLINE=`echo $HISTORYLINE | wc -l`
   if [ $NHISTORYLINE -ne 1 ]
   then 
