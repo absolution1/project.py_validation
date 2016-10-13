@@ -63,6 +63,9 @@ getJobTimes.sh jobids.txt
 echo "Running: runCreateTree.C"
 root -l -q runCreateTree.C
 
+#Now create the plots
+root -l -q projectpytree.root createPlots.C
+
 #Tidy up the directory
 rm createTree_C*
 rm job_time_elapsed.txt 
