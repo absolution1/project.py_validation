@@ -51,13 +51,16 @@ fi
 echo "Running: getOutputDir.py"
 OUTPUTDIR="$(python getOutputDir.py $PARSERCMD)"
 
-#Now reconstruct the list of job ids from the directory
+#Now reconstruct the list of job ids from the directory (also reconstructes directory structure)
 echo "Running: getAllJobIDs.sh"
 getAllJobIDs.sh $OUTPUTDIR
 
+#Get info on the LAr jobs (currently LAr time and memory).  Dumps info to a text file called lar_stats.txt
+getLArStats.sh jobids.txt
+
 #Now dump the job id and job time elapsed into the text file (called job_time_elapsed.txt)
 echo "Running: getJobTimes.sh"
-getJobTimes.sh jobids.txt
+getJobTimes.sh jobids.txt $OUTPUTDIR
 
 #Create the output tree which will hold the data
 echo "Running: runCreateTree.C"
@@ -70,3 +73,5 @@ root -l -q projectpytree.root createPlots.C
 rm createTree_C*
 rm job_time_elapsed.txt 
 rm jobids.txt
+rm jobfolders.txt
+rm lar_stats.txt

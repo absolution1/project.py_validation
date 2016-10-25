@@ -25,6 +25,14 @@ then
  rm jobids.txt
 fi
 
+#This script will produce a text file called jobfolders.txt.  If it already exists, delete it
+if [ -f jobfolders.txt ]
+then
+ echo "$0: jobfolders.txt already exists.  Deleting!"
+ rm jobfolders.txt
+fi
+
+
 #There should be a jobids.list folder in this directory
 
 if [ ! -f $OUTPUTDIR/jobids.list ]
@@ -60,4 +68,6 @@ do
 
   JOBID="$CLUSTERID.$PROCESSID@$BATCHADDRESS"
   echo "$JOBID" >> jobids.txt
+
+#echo ${OUTPUTDIR}/${CLUSTERID}_${PROCESSID} >> jobfolders.txt
 done
