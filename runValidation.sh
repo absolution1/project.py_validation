@@ -56,11 +56,11 @@ echo "Running: getAllJobIDs.sh"
 getAllJobIDs.sh $OUTPUTDIR
 
 #Get info on the LAr jobs (currently LAr time and memory).  Dumps info to a text file called lar_stats.txt
-getLArStats.sh jobids.txt
+getLArStats.sh jobids.txt $OUTPUTDIR
 
 #Now dump the job id and job time elapsed into the text file (called job_time_elapsed.txt)
 echo "Running: getJobTimes.sh"
-getJobTimes.sh jobids.txt $OUTPUTDIR
+getJobTimes.sh jobids.txt
 
 #Create the output tree which will hold the data
 echo "Running: runCreateTree.C"
