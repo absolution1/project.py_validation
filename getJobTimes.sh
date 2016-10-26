@@ -16,6 +16,9 @@ fi
 
 #We will need the user group for fetching the history
 GROUP=`groups`
+#If there are multiple groups, take the first one in the returned list
+GROUP=(${GROUP// / })
+GROUP=${GROUP[0]}
 
 #check if the output file we are going to make already exists.  If it does, delete it
 if [ -f job_time_elapsed.txt ]
