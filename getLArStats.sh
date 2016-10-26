@@ -47,9 +47,10 @@ do
   REALTIME="${TIMELINEARRAY[6]}"
 
   #Get memory stuff
-  PEAKMEMORYLINE=`cat temp_lar.out | grep "Peak virtual memory usage (VmPeak)"`
-  PEAKMEMORYLINEARRAY=(${PEAKMEMORYLINE// / })
-  PEAKMEMORY="${PEAKMEMORYLINEARRAY[5]}"
+#PEAKMEMORYLINE=`cat temp_lar.out | grep "Peak virtual memory usage (VmPeak)"`
+#PEAKMEMORYLINEARRAY=(${PEAKMEMORYLINE// / })
+#PEAKMEMORY="${PEAKMEMORYLINEARRAY[5]}"
+  PEAKMEMORY=`cat temp_lar.out | grep "Peak virtual memory usage (VmPeak)" | grep -o -E '[0-9]*\.[0-9]+'`
 
   #DUMP IT ALL!!!
   echo "$JOBID $CPUTIME $REALTIME $PEAKMEMORY" >> lar_stats.txt
