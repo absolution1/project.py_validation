@@ -48,8 +48,10 @@ fi
 
 
 #Now call the parser using the created command to get the output DIR
-echo "Running: getOutputDir.py"
-OUTPUTDIR="$(python getOutputDir.py $PARSERCMD)"
+echo "Running: project.py to get output dir"
+#OUTPUTDIR="$(python getOutputDir.py $PARSERCMD)"
+OUTPUTDIR=`project.py $PARSERCMD --outdir`
+#echo $OUTPUTDIR
 
 #Now reconstruct the list of job ids from the directory (also reconstructes directory structure)
 echo "Running: getAllJobIDs.sh"
