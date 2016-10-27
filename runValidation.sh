@@ -58,6 +58,7 @@ echo "Running: getAllJobIDs.sh"
 getAllJobIDs.sh $OUTPUTDIR
 
 #Get info on the LAr jobs (currently LAr time and memory).  Dumps info to a text file called lar_stats.txt
+echo "Running: getLArStats.sh"
 getLArStats.sh jobids.txt $OUTPUTDIR
 
 #Now dump the job id and job time elapsed into the text file (called job_time_elapsed.txt)
@@ -69,11 +70,23 @@ echo "Running: runCreateTree.C"
 root -l -q runCreateTree.C
 
 #Now create the plots
+echo "Running: createPlots.C"
 root -l -q projectpytree.root createPlots.C
+
+#Now copy the stuff to the project.py project directory
+VALOUTPUTDIR="$OUTPUTDIR/validation/$STAGE"
+echo "Moving output to $VALOUTPUTDIR"
+mkdir -p $VALOUTPUTDIR
+ifdh cp -D projectpytree.root $VALOUTPUTDIR/.
+ifdh cp -D projectpyplots.root $VALOUTPUTDIR/.
+ifdh cp -D job_time_elapsed.txt $VALOUTPUTDIR/.
+ifdh cp -D jobids.txt $VALOUTPUTDIR/.
+#ifdh cp -D jobfolders.txt $VALOUTPUTDIR/.
+ifdh cp -D lar_stats.txt $VALOUTPUTDIR/.
 
 #Tidy up the directory
 rm createTree_C*
 rm job_time_elapsed.txt 
 rm jobids.txt
-rm jobfolders.txt
+#rm jobfolders.txt
 rm lar_stats.txt
