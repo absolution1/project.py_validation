@@ -50,18 +50,20 @@ fi
 
 
 #Now call the parser using the created command to get the output DIR
-echo "Running project.py to get output dir"
+echo "Running project.py to get project directory"
 #OUTPUTDIR="$(python getOutputDir.py $PARSERCMD)"
 OUTPUTDIR=`project.py $PARSERCMD --outdir`
+echo "---The project directory is $OUTPUTDIR"
 #echo $OUTPUTDIR
 
 #Check that the validation output directory is empty
 VALOUTPUTDIR="$OUTPUTDIR/validation"
+echo "---The validation output directory is: $VALOUTPUTDIR"
 mkdir -p $VALOUTPUTDIR
 DIRCONTENT=`ls -A $VALOUTPUTDIR | wc -l`
 if [ $DIRCONTENT -ne 0 ]
 then
-  echo "Validation output directory: $VALOUTPUTDIR is not empty.  Exiting!!!!"
+  echo "Validation output directory is not empty.  Exiting!!!!"
   exit 1
 fi
 
@@ -100,3 +102,5 @@ rm job_time_elapsed.txt
 rm jobids.txt
 #rm jobfolders.txt
 rm lar_stats.txt
+rm projectpytree.root
+rm projectpyplots.root
