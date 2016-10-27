@@ -74,7 +74,7 @@ echo "Running: createPlots.C"
 root -l -q projectpytree.root createPlots.C
 
 #Now copy the stuff to the project.py project directory
-VALOUTPUTDIR="$OUTPUTDIR/validation/$STAGE"
+VALOUTPUTDIR="$OUTPUTDIR/validation"
 echo "Moving output to $VALOUTPUTDIR"
 mkdir -p $VALOUTPUTDIR
 ifdh cp -D projectpytree.root $VALOUTPUTDIR/.
