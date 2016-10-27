@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 #Get the command line arguments
 while [[ $# -gt 1 ]]
 do
@@ -48,10 +50,20 @@ fi
 
 
 #Now call the parser using the created command to get the output DIR
-echo "Running: project.py to get output dir"
+echo "Running project.py to get output dir"
 #OUTPUTDIR="$(python getOutputDir.py $PARSERCMD)"
 OUTPUTDIR=`project.py $PARSERCMD --outdir`
 #echo $OUTPUTDIR
+
+#Check that the validation output directory is empty
+VALOUTPUTDIR="$OUTPUTDIR/validation"
+mkdir -p $VALOUTPUTDIR
+DIRCONTENT=`ls -A $VALOUTPUTDIR | wc -l`
+if [ $DIRCONTENT -ne 0 ]
+then
+  echo "Validation output directory: $VALOUTPUTDIR is not empty.  Exiting!!!!"
+  exit 1
+fi
 
 #Now reconstruct the list of job ids from the directory (also reconstructes directory structure)
 echo "Running: getAllJobIDs.sh"
@@ -74,9 +86,7 @@ echo "Running: createPlots.C"
 root -l -q projectpytree.root createPlots.C
 
 #Now copy the stuff to the project.py project directory
-VALOUTPUTDIR="$OUTPUTDIR/validation"
 echo "Moving output to $VALOUTPUTDIR"
-mkdir -p $VALOUTPUTDIR
 ifdh cp -D projectpytree.root $VALOUTPUTDIR/.
 ifdh cp -D projectpyplots.root $VALOUTPUTDIR/.
 ifdh cp -D job_time_elapsed.txt $VALOUTPUTDIR/.

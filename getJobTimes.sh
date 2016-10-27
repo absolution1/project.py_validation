@@ -27,14 +27,26 @@ then
  rm job_time_elapsed.txt
 fi
 
+#check if the temporary file already exists and if so delete it.
+if [ -f jobsub_history.txt ]
+then
+ echo "$0: temporary file jobsub_history.txt already exists.  Deleting"
+ rm jobsub_history.txt
+fi
+
 #Assume the only input passed is a text file which contains jobids
 JOBIDS="$1"
+
+#Make the jobsub_history temporary file
+
+jobsub_history -G $GROUP --user=$USER > jobsub_history.txt
 
 #Loop over the job ids
 for JOBID in $(cat $JOBIDS)
 do
   #call jobsub_history for the job id, pipe that into grep (also using the job id)
-  HISTORYLINE=`jobsub_history -G $GROUP --user=$USER --jobid=$JOBID | grep $JOBID`
+  #HISTORYLINE=`jobsub_history -G $GROUP --user=$USER --jobid=$JOBID | grep $JOBID`
+  HISTORYLINE=`cat jobsub_history.txt | grep $JOBID`
   NHISTORYLINE=`echo $HISTORYLINE | wc -l`
   if [ $NHISTORYLINE -ne 1 ]
   then 
@@ -52,3 +64,5 @@ do
   TIMEELAPSED=$(( $ENDTIME-$STARTTIME ))
   echo "$JOBID $STARTTIME $ENDTIME $TIMEELAPSED" >> job_time_elapsed.txt
 done
+
+rm jobsub_history.txt
