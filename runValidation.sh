@@ -57,7 +57,7 @@ echo "---The project directory is $OUTPUTDIR"
 #echo $OUTPUTDIR
 
 #Check that the validation output directory is empty
-VALOUTPUTDIR="$OUTPUTDIR/validation"
+VALOUTPUTDIR="$OUTPUTDIR/../validation/$STAGE"
 echo "---The validation output directory is: $VALOUTPUTDIR"
 mkdir -p $VALOUTPUTDIR
 DIRCONTENT=`ls -A $VALOUTPUTDIR | wc -l`
