@@ -42,32 +42,36 @@ then
   exit 1
 fi
 
-#Last time I checked, jobids.list should only ever have 1 entry which is the first grid job id.  So get that then we can cut it up and build the job id list
+#OLD: Last time I checked, jobids.list should only ever have 1 entry which is the first grid job id.  So get that then we can cut it up and build the job id list
+#UPDATE 12/16: This is NOT true.  If you submit a markup job then it will also contrain the 0th job for the markup resubmission!!!!!
+#-----To fix this bug, LOOP over the job id list in jobids.list and then run as normal
 
-FIRSTJOBID=`cat $OUTPUTDIR/jobids.list`
-
-#example job id is 14044890.0@fifebatch2.fnal.gov
-#The aim is to extract 14044890 (the cluster ID)
-#Split the job id by the . and take the first element in the subsequent array
-JOBIDARRAYPERIOD=(${FIRSTJOBID//./ })
-CLUSTERID=${JOBIDARRAYPERIOD[0]}
-
-#We are also going to need the fifebatch address to construct the full jobid
-#Follow the above routine but split on @
-JOBIDARRAYAT=(${FIRSTJOBID//@/ })
-BATCHADDRESS=${JOBIDARRAYAT[1]}
-
-#Unless project.py changes, the output directory should contain a bunch of folders named $CLUSTERID_*.  Loop over the folders and extract the process ID for each job
-for PATH_CLUSTER_PROCESS in $(ls -d  $OUTPUTDIR/${CLUSTERID}_*)
-do
-  #Get just the folder name (using base name
-  CLUSTER_PROCESS=`basename $PATH_CLUSTER_PROCESS`
-  #Now split the CLUSTER_PROCESS string on the _
-  CLUSTER_PROCESS_ARRAY=(${CLUSTER_PROCESS//_/ })
-  PROCESSID=${CLUSTER_PROCESS_ARRAY[1]}
-
-  JOBID="$CLUSTERID.$PROCESSID@$BATCHADDRESS"
-  echo "$JOBID" >> jobids.txt
-
-#echo ${OUTPUTDIR}/${CLUSTERID}_${PROCESSID} >> jobfolders.txt
+for FIRSTJOBID in `cat $OUTPUTDIR/jobids.list`
+  do
+  
+  #example job id is 14044890.0@fifebatch2.fnal.gov
+  #The aim is to extract 14044890 (the cluster ID)
+  #Split the job id by the . and take the first element in the subsequent array
+  JOBIDARRAYPERIOD=(${FIRSTJOBID//./ })
+  CLUSTERID=${JOBIDARRAYPERIOD[0]}
+  
+  #We are also going to need the fifebatch address to construct the full jobid
+  #Follow the above routine but split on @
+  JOBIDARRAYAT=(${FIRSTJOBID//@/ })
+  BATCHADDRESS=${JOBIDARRAYAT[1]}
+  
+  #Unless project.py changes, the output directory should contain a bunch of folders named $CLUSTERID_*.  Loop over the folders and extract the process ID for each job
+  for PATH_CLUSTER_PROCESS in $(ls -d  $OUTPUTDIR/${CLUSTERID}_*)
+  do
+    #Get just the folder name (using base name
+    CLUSTER_PROCESS=`basename $PATH_CLUSTER_PROCESS`
+    #Now split the CLUSTER_PROCESS string on the _
+    CLUSTER_PROCESS_ARRAY=(${CLUSTER_PROCESS//_/ })
+    PROCESSID=${CLUSTER_PROCESS_ARRAY[1]}
+  
+    JOBID="$CLUSTERID.$PROCESSID@$BATCHADDRESS"
+    echo "$JOBID" >> jobids.txt
+  
+  #echo ${OUTPUTDIR}/${CLUSTERID}_${PROCESSID} >> jobfolders.txt
+  done
 done
