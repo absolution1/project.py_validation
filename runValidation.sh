@@ -81,11 +81,15 @@ getJobTimes.sh jobids.txt
 
 #Create the output tree which will hold the data
 echo "Running: runCreateTree.C"
-root -l -q runCreateTree.C
+root -l -b -q runCreateTree.C
 
 #Now create the plots
 echo "Running: createPlots.C"
-root -l -q projectpytree.root createPlots.C
+root -l -b -q projectpytree.root createPlots.C
+
+#Now dump the plots to picture files
+echo "Running: dumpPlots.C"
+root -l -b -q "dumpPlots.C(\"projectpyplots.root\",\"${STAGE}_\")"
 
 #Now copy the stuff to the project.py project directory
 echo "Moving output to $VALOUTPUTDIR"
@@ -102,6 +106,8 @@ cp job_time_elapsed.txt $VALOUTPUTDIR/.
 cp jobids.txt $VALOUTPUTDIR/.
 #ifdh cp -D jobfolders.txt $VALOUTPUTDIR/.
 cp lar_stats.txt $VALOUTPUTDIR/.
+cp *.pdf $VALOUTPUTDIR/.
+cp *.png $VALOUTPUTDIR/.
 
 
 #Tidy up the directory
@@ -112,3 +118,5 @@ rm jobids.txt
 rm lar_stats.txt
 rm projectpytree.root
 rm projectpyplots.root
+rm *.pdf
+rm *.pngg
