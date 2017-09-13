@@ -89,12 +89,20 @@ root -l -q projectpytree.root createPlots.C
 
 #Now copy the stuff to the project.py project directory
 echo "Moving output to $VALOUTPUTDIR"
-ifdh cp -D projectpytree.root $VALOUTPUTDIR/.
-ifdh cp -D projectpyplots.root $VALOUTPUTDIR/.
-ifdh cp -D job_time_elapsed.txt $VALOUTPUTDIR/.
-ifdh cp -D jobids.txt $VALOUTPUTDIR/.
+#ifdh cp -D projectpytree.root $VALOUTPUTDIR/.
+#ifdh cp -D projectpyplots.root $VALOUTPUTDIR/.
+#ifdh cp -D job_time_elapsed.txt $VALOUTPUTDIR/.
+#ifdh cp -D jobids.txt $VALOUTPUTDIR/.
+##ifdh cp -D jobfolders.txt $VALOUTPUTDIR/.
+#ifdh cp -D lar_stats.txt $VALOUTPUTDIR/.
+
+cp projectpytree.root $VALOUTPUTDIR/.
+cp projectpyplots.root $VALOUTPUTDIR/.
+cp job_time_elapsed.txt $VALOUTPUTDIR/.
+cp jobids.txt $VALOUTPUTDIR/.
 #ifdh cp -D jobfolders.txt $VALOUTPUTDIR/.
-ifdh cp -D lar_stats.txt $VALOUTPUTDIR/.
+cp lar_stats.txt $VALOUTPUTDIR/.
+
 
 #Tidy up the directory
 rm createTree_C*
