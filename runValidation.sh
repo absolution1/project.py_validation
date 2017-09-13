@@ -119,4 +119,4 @@ rm lar_stats.txt
 rm projectpytree.root
 rm projectpyplots.root
 rm *.pdf
-rm *.pngg
+rm *.png
